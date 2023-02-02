@@ -1,5 +1,5 @@
 const palette = {
-  white: "FFF",
+  white: "#fff",
   black: "#000",
   blue: {
     primary: "#4147DA",
@@ -19,12 +19,19 @@ const theme = {
   primary: {
     white: palette.white,
     black: palette.black,
-    blue: palette.blue,
-    red: palette.red,
+    blue: palette.blue.primary,
+    red: palette.red.primary,
+    grey100: palette.grey[100],
+    grey200: palette.grey[200],
+    grey300: palette.grey[300],
+    grey400: palette.grey[400],
   },
   text: {
     white: palette.white,
     black: palette.black,
+    darkGrey: palette.grey[400],
+    lightGrey: palette.grey[100],
+    grey: palette.grey[200],
   },
   fontSize: {
     title: "1.875rem", // 30px

@@ -23,9 +23,28 @@ button {
   user-select: none;
 }
 
+ul,
+li {
+  list-style: none;
+}
+
 table {
   border-collapse: collapse;
   border-spacing: 0;
+}
+
+input {
+  outline: none;
+  border: none;
+  background: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+fieldset {
+  border: none;
+  outline: none;
 }
 
 * {
@@ -53,6 +72,9 @@ table {
 }
 .md-18 {
   font-size: 18px !important;
+}
+.md-20 {
+  font-size: 20px !important;
 }
 .md-24 {
   font-size: 24px !important;
