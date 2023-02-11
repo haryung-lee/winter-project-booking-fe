@@ -13,6 +13,10 @@ const palette = {
     300: "#D7D7D7",
     400: "#686868",
   },
+  iris: {
+    primary: "#5D5FEF"
+  },
+
 };
 
 const theme = {
@@ -25,6 +29,7 @@ const theme = {
     grey200: palette.grey[200],
     grey300: palette.grey[300],
     grey400: palette.grey[400],
+    iris:palette.iris.primary,
   },
   text: {
     white: palette.white,
