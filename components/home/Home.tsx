@@ -170,14 +170,8 @@ const InputContainer = styled.div<{ isFocus: boolean }>`
 
   ${({ isFocus }) =>
     isFocus &&
-    `border: 2px solid ${theme.primary.blue100}; 
+    `border: 2px solid ${theme.primary.blue80}; 
     padding: 0.375rem 0.3rem 0.375rem 0.7rem;`}
-  &:hover {
-    background-color: ${theme.primary.grey200};
-    input {
-      background-color: ${theme.primary.grey200};
-    }
-  }
 `;
 
 const SearchInput = styled.input`

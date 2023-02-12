@@ -84,6 +84,9 @@ const DropDown = ({ value, handleChange, items }: DropDownProps) => {
               borderColor: theme.primary.grey200,
             },
           },
+          "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+            borderColor: theme.primary.blue80,
+          },
         }}
         IconComponent={(props) => (
           <i
