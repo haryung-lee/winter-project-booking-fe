@@ -44,15 +44,16 @@ const Home = () => {
     <Container>
       <Main>
         <Banner>
-          전공책을
+          책 정보?
           <br />
-          찾아보세요 👀
+          여기에서 찾아보자
+          <Description>내가 듣는 수업의 책 정보를 쉽고 빠르게</Description>
           <Image
             priority={true}
             src="/images/banner.png"
             alt="banner"
-            width="200"
-            height="200"
+            width="180"
+            height="180"
             style={{
               position: "absolute",
               right: "-1rem",
@@ -119,15 +120,31 @@ const Main = styled.main`
 const Banner = styled.div`
   position: relative;
   height: 11rem;
-  background-color: ${theme.primary.grey200};
+  background-color: ${theme.primary.blue80};
   display: flex;
+  flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  color: ${theme.primary.grey400};
-  padding: 1rem;
+  color: ${theme.text.white};
+  padding: 2.25rem 6.4rem 1rem 1rem;
   border-radius: 0.3rem;
-  font-size: ${theme.fontSize.lg};
+  font-size: ${theme.fontSize.xl};
   font-weight: 600;
+  line-height: 1.4;
+  @media screen and (max-width: ${theme.breakPoint.mobile}) {
+    font-size: ${theme.fontSize.md};
+    padding: 2rem 7rem 1rem 1rem;
+  }
+`;
+
+const Description = styled.p`
+  font-size: ${theme.fontSize.xs};
+  font-weight: 400;
+  margin-top: 0.5rem;
+  @media screen and (max-width: ${theme.breakPoint.mobile}) {
+    font-size: ${theme.fontSize.xxs};
+    margin-top: 0.3rem;
+  }
 `;
 
 const SearchContainer = styled.div`
@@ -153,7 +170,7 @@ const InputContainer = styled.div<{ isFocus: boolean }>`
 
   ${({ isFocus }) =>
     isFocus &&
-    `border: 2px solid ${theme.primary.blue}; 
+    `border: 2px solid ${theme.primary.blue100}; 
     padding: 0.375rem 0.3rem 0.375rem 0.7rem;`}
   &:hover {
     background-color: ${theme.primary.grey200};

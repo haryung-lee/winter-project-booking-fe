@@ -3,6 +3,8 @@ const palette = {
   black: "#000",
   blue: {
     primary: "#4147DA",
+    80: "#7879F1",
+    60: "#A5A6F6",
   },
   red: {
     primary: "#EE5D5D",
@@ -13,23 +15,20 @@ const palette = {
     300: "#D7D7D7",
     400: "#686868",
   },
-  iris: {
-    primary: "#5D5FEF"
-  },
-
 };
 
 const theme = {
   primary: {
     white: palette.white,
     black: palette.black,
-    blue: palette.blue.primary,
+    blue100: palette.blue.primary,
+    blue80: palette.blue[80],
+    blue60: palette.blue[60],
     red: palette.red.primary,
     grey100: palette.grey[100],
     grey200: palette.grey[200],
     grey300: palette.grey[300],
     grey400: palette.grey[400],
-    iris:palette.iris.primary,
   },
   text: {
     white: palette.white,

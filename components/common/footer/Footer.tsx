@@ -15,7 +15,7 @@ export default Footer;
 
 const Container = styled.footer`
   height: 6rem;
-  background-color: ${theme.primary.blue};
+  background-color: ${theme.primary.blue100};
   color: ${theme.text.white};
   display: flex;
   align-items: center;

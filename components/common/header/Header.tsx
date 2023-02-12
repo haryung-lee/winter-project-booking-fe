@@ -10,7 +10,7 @@ const Header = () => {
       <Link href="/">
         <LogoContainer>
           <span className="material-symbols-outlined">favorite</span>
-          <Title>전공책 정보 제공 서비스</Title>
+          <Title>책 정보 제공 서비스</Title>
         </LogoContainer>
       </Link>
     </Container>
@@ -20,7 +20,7 @@ const Header = () => {
 export default Header;
 
 const Container = styled.header`
-  background-color: ${theme.primary.blue};
+  background-color: ${theme.primary.blue100};
   height: 5rem;
   color: ${theme.text.white};
   display: flex;
