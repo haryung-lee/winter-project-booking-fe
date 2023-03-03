@@ -1,44 +1,56 @@
-import React, { useState } from "react";
-import styled from "@emotion/styled";
-import { SelectChangeEvent } from "@mui/material";
-import Image from "next/image";
+import React, { useCallback, useEffect, useState } from 'react'
+import styled from '@emotion/styled'
+import { SelectChangeEvent } from '@mui/material'
+import Image from 'next/image'
 
-import theme from "styles/theme";
-import DropDown from "components/common/drop-down";
-import SearchItem from "components/search-item";
+import theme from 'styles/theme'
+import { useDebounce } from '@hooks/useDebounce'
+import DropDown from 'components/common/drop-down'
+import SearchItem from 'components/search-item'
+import { useSubjectQuery } from '@hooks/query/search/useSubjectQuery'
+import { SubjectListType } from '@components/search-item/SearchItem'
 
 const Home = () => {
-  const [option, setOption] = useState("교수명");
+  const [option, setOption] = useState<'professor' | 'department' | 'subject'>(
+    'professor'
+  )
   const [searchInput, setSearchInput] = useState({
-    value: "",
+    value: '',
     isFocus: false,
-  });
+  })
+
+  const debouncedValue = useDebounce(searchInput.value, 500)
+
+  const { data, isLoading } = useSubjectQuery({
+    type: option,
+    value: debouncedValue,
+  })
 
   const handleChangeOption = (event: SelectChangeEvent) => {
-    setOption(event.target.value);
-  };
+    setOption(event.target.value as 'professor' | 'department' | 'subject')
+  }
 
   const handleChangeSearchInput = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    event.preventDefault();
-    setSearchInput({ ...searchInput, value: event.target.value });
-  };
+    event.preventDefault()
+    setSearchInput({ ...searchInput, value: event.target.value })
+  }
 
   const handleBlurSearchInput = () => {
-    setSearchInput({ ...searchInput, isFocus: false });
-  };
+    setSearchInput({ ...searchInput, isFocus: false })
+  }
 
   const handleFocusSearchInput = () => {
-    setSearchInput({ ...searchInput, isFocus: true });
-  };
+    setSearchInput({ ...searchInput, isFocus: true })
+  }
 
   const handleClickClearButton = (
     event: React.MouseEvent<HTMLButtonElement>
   ) => {
-    event.preventDefault();
-    setSearchInput({ ...searchInput, value: "" });
-  };
+    event.preventDefault()
+    setSearchInput({ ...searchInput, value: '' })
+  }
 
   return (
     <Container>
@@ -55,9 +67,9 @@ const Home = () => {
             width="180"
             height="180"
             style={{
-              position: "absolute",
-              right: "-1rem",
-              bottom: "-1rem",
+              position: 'absolute',
+              right: '-1rem',
+              bottom: '-1rem',
             }}
           />
         </Banner>
@@ -66,9 +78,9 @@ const Home = () => {
             value={option}
             handleChange={handleChangeOption}
             items={[
-              { key: "교수명", value: "교수명" },
-              { key: "과목명", value: "과목명" },
-              { key: "학과명", value: "학과명" },
+              { key: '교수명', name: '교수명', value: 'professor' },
+              { key: '과목명', name: '과목명', value: 'subject' },
+              { key: '학과명', name: '학과명', value: 'department' },
             ]}
           />
           <InputContainer isFocus={searchInput.isFocus}>
@@ -94,28 +106,50 @@ const Home = () => {
             )}
           </InputContainer>
         </SearchContainer>
-        <SearchList>
-          {Array.from({ length: 5 }, (_, i) => i).map((i) => (
-            <SearchItem key={i} />
-          ))}
-        </SearchList>
+        {isLoading ? (
+          !!data ? (
+            <LoadingContainer />
+          ) : (
+            <></>
+          )
+        ) : !!data?.length ? (
+          <SearchList>
+            {data?.map((item: SubjectListType) => (
+              <SearchItem data={item} key={item.id} />
+            ))}
+          </SearchList>
+        ) : (
+          <Empty>
+            <EmptyDescription>검색 결과가 없습니다.</EmptyDescription>
+          </Empty>
+        )}
       </Main>
     </Container>
-  );
-};
+  )
+}
 
-export default Home;
+export default Home
+
+const LoadingContainer = styled.div`
+  height: 6.25rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: ${theme.primary.grey100};
+  margin-top: 1.5rem;
+`
 
 const Container = styled.div`
   flex-grow: 1;
-`;
+`
 
 const Main = styled.main`
-  max-width: 360px;
+  max-width: 22.5rem;
   background-color: ${theme.primary.white};
   padding: 0 1rem;
   margin: 2rem auto;
-`;
+  /* height: 100vh; */
+`
 
 const Banner = styled.div`
   position: relative;
@@ -135,7 +169,7 @@ const Banner = styled.div`
     font-size: ${theme.fontSize.md};
     padding: 2rem 7rem 1rem 1rem;
   }
-`;
+`
 
 const Description = styled.p`
   font-size: ${theme.fontSize.xs};
@@ -145,7 +179,7 @@ const Description = styled.p`
     font-size: ${theme.fontSize.xxs};
     margin-top: 0.3rem;
   }
-`;
+`
 
 const SearchContainer = styled.div`
   display: flex;
@@ -155,7 +189,7 @@ const SearchContainer = styled.div`
   @media screen and (max-width: ${theme.breakPoint.mobile}) {
     gap: 0.4rem;
   }
-`;
+`
 
 const InputContainer = styled.div<{ isFocus: boolean }>`
   height: 36px;
@@ -172,7 +206,7 @@ const InputContainer = styled.div<{ isFocus: boolean }>`
     isFocus &&
     `border: 2px solid ${theme.primary.blue80}; 
     padding: 0.375rem 0.3rem 0.375rem 0.7rem;`}
-`;
+`
 
 const SearchInput = styled.input`
   height: 100%;
@@ -181,14 +215,30 @@ const SearchInput = styled.input`
   color: ${theme.text.darkGrey};
   background-color: ${theme.primary.grey100};
   width: 100%;
-`;
+`
 
 const Button = styled.button`
   color: ${theme.text.darkGrey};
-`;
+`
 
 const SearchList = styled.ul`
   border: 1px solid ${theme.primary.grey300};
   border-radius: 5px;
   margin-top: 1.5rem;
-`;
+`
+
+const Empty = styled.div`
+  margin-top: 1.5rem;
+  padding: 1rem;
+  gap: 0.4rem;
+  background-color: ${theme.primary.grey300};
+  border-radius: 1px;
+  font-size: ${theme.fontSize.md};
+  color: ${theme.text.darkGrey};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 6.25rem;
+`
+
+const EmptyDescription = styled.p``

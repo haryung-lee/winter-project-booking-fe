@@ -1,11 +1,11 @@
-import React from "react";
-import styled from "@emotion/styled";
+import React from 'react'
+import styled from '@emotion/styled'
 
-import Header from "../header";
-import Footer from "../footer";
+import Header from '../header'
+import Footer from '../footer'
 
 interface BaseLayoutProps {
-  children: React.ReactNode;
+  children: React.ReactNode
 }
 
 const BaseLayout = ({ children }: BaseLayoutProps) => {
@@ -15,13 +15,13 @@ const BaseLayout = ({ children }: BaseLayoutProps) => {
       {children}
       <Footer />
     </Container>
-  );
-};
+  )
+}
 
-export default BaseLayout;
+export default BaseLayout
 
 const Container = styled.div`
-  min-height: 101vh;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-`;
+`

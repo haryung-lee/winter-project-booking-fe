@@ -1,18 +1,18 @@
-import React from "react";
+import React from 'react'
 import {
   Select,
   MenuItem,
   SelectChangeEvent,
   createTheme,
   ThemeProvider,
-} from "@mui/material";
+} from '@mui/material'
 
-import theme from "styles/theme";
+import theme from 'styles/theme'
 
 interface DropDownProps {
-  value: string;
-  handleChange: (event: SelectChangeEvent) => void;
-  items: { key: string; value: string }[];
+  value: 'professor' | 'department' | 'subject'
+  handleChange: (event: SelectChangeEvent) => void
+  items: { key: string; value: string; name: string }[]
 }
 
 const muiTheme = createTheme({
@@ -21,10 +21,10 @@ const muiTheme = createTheme({
       styleOverrides: {
         root: {
           color: theme.text.darkGrey,
-          minWidth: "5.4rem",
-          height: "2.25rem",
+          minWidth: '5.4rem',
+          height: '2.25rem',
           fontSize: theme.fontSize.sm,
-          "&:hover": {
+          '&:hover': {
             opacity: 0.7,
           },
         },
@@ -44,8 +44,8 @@ const muiTheme = createTheme({
           marginTop: 4,
           borderWidth: 1,
           borderColor: theme.primary.grey300,
-          borderStyle: "solid",
-          boxShadow: "none",
+          borderStyle: 'solid',
+          boxShadow: 'none',
         },
       },
     },
@@ -56,21 +56,34 @@ const muiTheme = createTheme({
           paddingBottom: 0,
           fontSize: theme.fontSize.sm,
           color: theme.text.darkGrey,
-          "& li": {
+          '& li': {
             fontSize: theme.fontSize.sm,
           },
-          "& li.Mui-selected": {
+          '& li.Mui-selected': {
             background: theme.primary.grey100,
             fontWeight: 500,
           },
-          "& li.Mui-selected:hover": {
+          '& li.Mui-selected:hover': {
             background: theme.primary.grey100,
           },
         },
       },
     },
   },
-});
+})
+
+const getName = (value: string) => {
+  switch (value) {
+    case 'professor':
+      return '교수명'
+    case 'department':
+      return '학과명'
+    case 'subject':
+      return '과목명'
+    default:
+      return '교수명'
+  }
+}
 
 const DropDown = ({ value, handleChange, items }: DropDownProps) => {
   return (
@@ -79,12 +92,12 @@ const DropDown = ({ value, handleChange, items }: DropDownProps) => {
         value={value}
         onChange={handleChange}
         sx={{
-          "&:hover": {
-            "&& fieldset": {
+          '&:hover': {
+            '&& fieldset': {
               borderColor: theme.primary.grey200,
             },
           },
-          "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+          '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
             borderColor: theme.primary.blue80,
           },
         }}
@@ -99,12 +112,12 @@ const DropDown = ({ value, handleChange, items }: DropDownProps) => {
       >
         {items.map((item) => (
           <MenuItem key={item.key} value={item.value}>
-            {item.key}
+            {item.name}
           </MenuItem>
         ))}
       </Select>
     </ThemeProvider>
-  );
-};
+  )
+}
 
-export default DropDown;
+export default DropDown
