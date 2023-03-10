@@ -1,10 +1,7 @@
-import Head from "next/head";
-import { Inter } from "@next/font/google";
+import Head from 'next/head'
 
-import BaseLayout from "components/common/base-layout";
-import HomeContainer from "components/home";
-
-const inter = Inter({ subsets: ["latin"] });
+import BaseLayout from 'components/common/base-layout'
+import HomeContainer from 'components/home'
 
 export default function Home() {
   return (
@@ -19,5 +16,5 @@ export default function Home() {
         <HomeContainer />
       </BaseLayout>
     </>
-  );
+  )
 }
