@@ -10,7 +10,7 @@ import {
 import theme from 'styles/theme'
 
 interface DropDownProps {
-  value: 'professor' | 'department' | 'subject'
+  value: 'professor' | 'department' | 'name'
   handleChange: (event: SelectChangeEvent) => void
   items: { key: string; value: string; name: string }[]
 }
@@ -78,7 +78,7 @@ const getName = (value: string) => {
       return '교수명'
     case 'department':
       return '학과명'
-    case 'subject':
+    case 'name':
       return '과목명'
     default:
       return '교수명'
