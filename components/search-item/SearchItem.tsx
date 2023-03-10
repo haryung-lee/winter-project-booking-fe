@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from '@emotion/styled'
+import { useRouter } from 'next/router'
 
 import theme from 'styles/theme'
 
@@ -17,8 +18,21 @@ interface SearchItemProps {
 
 const SearchItem = (props: SearchItemProps) => {
   const { data } = props
+  const router = useRouter()
+
+  const handleClick = (event: React.MouseEvent<HTMLLIElement>) => {
+    event.preventDefault()
+    router.push(
+      {
+        pathname: `/book/${data.id}`,
+        query: data,
+      },
+      `/book/${data.id}`
+    )
+  }
+
   return (
-    <Container>
+    <Container onClick={handleClick}>
       <Subject>{data.name}</Subject>
       <Professor>{data.professor}</Professor>
       <Description>
