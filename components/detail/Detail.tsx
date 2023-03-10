@@ -1,114 +1,143 @@
 import React, { useState } from 'react'
 import styled from '@emotion/styled'
-import Head from 'next/head'
 import Image from 'next/image'
+import { useRouter } from 'next/router'
 
 import theme from 'styles/theme'
-import SearchItem from 'components/search-item'
+import { useSubjectIdQuery } from '@hooks/query/search/useSubjectQuery'
 
 const Detail = () => {
-  const [mainclicked, setMainClicked] = useState(false)
-  const [refclicked, setRefClicked] = useState(false)
+  const router = useRouter()
+  const { query: detail } = router
+
+  const [bookType, setMainClicked] = useState('main')
+  const { data, isLoading } = useSubjectIdQuery({ id: detail.id as any })
   const [bookmark, setBookmark] = useState(false)
 
-  const handleMainBook = () => {
-    setMainClicked(!mainclicked)
-    setRefClicked(false)
-    console.log(mainclicked)
+  const handleMainBook = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault()
+    setMainClicked('main')
   }
 
-  const handleRefBook = () => {
-    setRefClicked(!refclicked)
-    setMainClicked(false)
-    console.log(refclicked)
+  const handleRefBook = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault()
+    setMainClicked('ref')
   }
 
   const handleBookmark = () => {
     setBookmark(!bookmark)
   }
 
+  const handleBack = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault()
+    router.back()
+  }
+
   return (
-    <>
-      <Head>
-        {bookmark == true ? (
-          <link
-            rel="stylesheet"
-            href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,1,0"
-          />
+    <Main>
+      <TopIcon>
+        <BackIcon
+          className="material-symbols-outlined md-20"
+          onClick={handleBack}
+        >
+          arrow_back_ios
+        </BackIcon>
+        <SubjectTitle>{`${data?.name} / ${data?.professor}`}</SubjectTitle>
+      </TopIcon>
+      <Item>
+        <Subject>{data?.name}</Subject>
+        <Professor>{data?.professor}</Professor>
+        <Description>
+          <span>{data?.subjectType}</span>
+          <Department>{data?.department}</Department>
+        </Description>
+      </Item>
+      <SubTitle>
+        <span>주교재 및 참고서적</span>
+        <MainBook onClick={handleMainBook}>주교재</MainBook>
+        <RefBook onClick={handleRefBook}>참고서적</RefBook>
+      </SubTitle>
+      <Details>
+        {isLoading ? (
+          <>로딩중</>
         ) : (
-          <link
-            rel="stylesheet"
-            href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0"
-          />
+          data?.books?.map((book) => {
+            return (
+              <div>
+                <BookPicture>
+                  <BookMark
+                    onClick={handleBookmark}
+                    className="material-symbols-outlined md-24"
+                  >
+                    bookmark
+                  </BookMark>
+                  <Image
+                    priority={true}
+                    src="/images/uiuxDesign.png"
+                    alt="banner"
+                    width="120"
+                    height="187"
+                    style={{
+                      position: 'relative',
+                      marginLeft: '6rem',
+                      marginTop: '0rem',
+                    }}
+                  />
+                </BookPicture>
+                {book.id}
+              </div>
+            )
+          })
         )}
-      </Head>
-      <Main>
-        <TopIcon>
-          <BackIcon className="material-symbols-outlined md-18">
-            arrow_back_ios
-          </BackIcon>
-          <SubjectTitle>UIUX 디자인/이운형</SubjectTitle>
-        </TopIcon>
-        <SearchList>
-          {/* {Array.from({ length:1 }, (_, i) => i).map((i) => (
-                <SearchItem key={i} />
-            ))} */}
-        </SearchList>
-        <SubTitle>
-          <TotalBook>주교재 및 참고서적</TotalBook>
-          <MainBook onClick={handleMainBook}>주교재</MainBook>
-          <RefBook onClick={handleRefBook}>참고서적</RefBook>
-        </SubTitle>
-        <Details>
-          {mainclicked && (
-            <>
-              <BookPicture>
-                <BookMark
-                  onClick={handleBookmark}
-                  className="material-symbols-outlined md-24"
-                >
-                  bookmark
-                </BookMark>
-                <Image
-                  priority={true}
-                  src="/images/uiuxDesign.png"
-                  alt="banner"
-                  width="120"
-                  height="187"
-                  style={{
-                    position: 'relative',
-                    marginLeft: '6rem',
-                    marginTop: '0rem',
-                  }}
-                />
-              </BookPicture>
-              <Author></Author>
-              <Publisher></Publisher>
-              <PubDate></PubDate>
-              <DataType></DataType>
-              <KeepInfo></KeepInfo>
-            </>
-          )}
-          {refclicked && (
-            <>
-              <BookPicture>
-                <BookMark
-                  onClick={handleBookmark}
-                  className="material-symbols-outlined md-24"
-                >
-                  bookmark
-                </BookMark>
-              </BookPicture>
-              <Author></Author>
-              <Publisher></Publisher>
-              <PubDate></PubDate>
-              <DataType></DataType>
-              <KeepInfo></KeepInfo>
-            </>
-          )}
-        </Details>
-      </Main>
-    </>
+      </Details>
+      {/* {bookType === 'main' && (
+          <>
+            <BookPicture>
+              <BookMark
+                onClick={handleBookmark}
+                className="material-symbols-outlined md-24"
+              >
+                bookmark
+              </BookMark>
+              <Image
+                priority={true}
+                src="/images/uiuxDesign.png"
+                alt="banner"
+                width="120"
+                height="187"
+                style={{
+                  position: 'relative',
+                  marginLeft: '6rem',
+                  marginTop: '0rem',
+                }}
+              />
+            </BookPicture>
+            <Author></Author>
+            <Publisher></Publisher>
+            <PubDate></PubDate>
+            <DataType></DataType>
+            <KeepInfo></KeepInfo>
+          </>
+        )}
+        {bookType === 'ref' && (
+          <>
+            <BookPicture>
+              <BookMark
+                onClick={handleBookmark}
+                className="material-symbols-outlined md-24"
+              >
+                bookmark
+              </BookMark>
+            </BookPicture>
+            <Author></Author>
+            <Publisher></Publisher>
+            <PubDate></PubDate>
+            <DataType></DataType>
+            <KeepInfo></KeepInfo>
+          </>
+        )}
+      </Details> */}
+    </Main>
   )
 }
 
@@ -122,7 +151,6 @@ const BookMark = styled.button`
 
 const BackIcon = styled.button`
   color: ${theme.primary.grey400};
-
   transition: 0.2s ease-in-out;
 
   &:hover {
@@ -204,17 +232,12 @@ const Details = styled.li`
 
 const TopIcon = styled.div`
   display: flex;
-`
-
-const TotalBook = styled.div`
-  font-size: ${theme.fontSize.xs};
+  align-items: center;
 `
 
 const MainBook = styled.button`
   margin-left: auto;
   margin-right: 0.6rem;
-  font-size: ${theme.fontSize.xxs};
-
   transition: 0.2s ease-in-out;
 
   &:hover {
@@ -223,8 +246,6 @@ const MainBook = styled.button`
 `
 
 const RefBook = styled.button`
-  font-size: ${theme.fontSize.xxs};
-
   transition: 0.2s ease-in-out;
 
   &:hover {
@@ -234,7 +255,8 @@ const RefBook = styled.button`
 
 const SubTitle = styled.div`
   display: flex;
-  padding-top: 0.8rem;
+  margin-top: 1rem;
+  font-size: ${theme.fontSize.sm};
 `
 
 const SubjectTitle = styled.div`
@@ -244,14 +266,39 @@ const SubjectTitle = styled.div`
 `
 
 const Main = styled.main`
-  max-width: 360px;
   background-color: ${theme.primary.white};
   padding: 0 1rem;
-  margin: 4.5rem auto;
+  margin: 2rem auto;
+  flex-grow: 1;
 `
 
-const SearchList = styled.ul`
-  border: 1px solid ${theme.primary.grey300};
-  border-radius: 0.3rem;
-  margin-top: 1.5rem;
+const Item = styled.div`
+  cursor: pointer;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  transition: all 0.15s ease-in-out;
+  border: 2px solid ${theme.primary.blue100};
+  border-radius: 5px;
+  margin-top: 1rem;
+`
+
+const Subject = styled.span`
+  font-size: ${theme.fontSize.sm};
+  font-weight: 500;
+`
+
+const Professor = styled.span`
+  color: ${theme.primary.grey400};
+  font-size: ${theme.fontSize.xs};
+`
+
+const Description = styled.div`
+  color: ${theme.primary.grey400};
+  font-size: ${theme.fontSize.xs};
+`
+
+const Department = styled.span`
+  margin-left: 0.3rem;
 `
