@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import styled from '@emotion/styled'
 import { SelectChangeEvent } from '@mui/material'
 import Image from 'next/image'
@@ -11,7 +11,7 @@ import { useSubjectQuery } from '@hooks/query/search/useSubjectQuery'
 import { SubjectListType } from '@components/search-item/SearchItem'
 
 const Home = () => {
-  const [option, setOption] = useState<'professor' | 'department' | 'subject'>(
+  const [option, setOption] = useState<'professor' | 'department' | 'name'>(
     'professor'
   )
   const [searchInput, setSearchInput] = useState({
@@ -27,7 +27,7 @@ const Home = () => {
   })
 
   const handleChangeOption = (event: SelectChangeEvent) => {
-    setOption(event.target.value as 'professor' | 'department' | 'subject')
+    setOption(event.target.value as 'professor' | 'department' | 'name')
   }
 
   const handleChangeSearchInput = (
@@ -79,7 +79,7 @@ const Home = () => {
             handleChange={handleChangeOption}
             items={[
               { key: '교수명', name: '교수명', value: 'professor' },
-              { key: '과목명', name: '과목명', value: 'subject' },
+              { key: '과목명', name: '과목명', value: 'name' },
               { key: '학과명', name: '학과명', value: 'department' },
             ]}
           />
