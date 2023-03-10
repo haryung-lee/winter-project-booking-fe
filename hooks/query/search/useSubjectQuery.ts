@@ -1,22 +1,30 @@
 import { useQuery } from '@tanstack/react-query'
 import { getAsync } from '@api/index'
 
-export type SubjectListType = {
+interface FetchSubjectListType {
+  type: 'department' | 'name' | 'professor'
+  value?: string
+}
+
+interface FetchSubjectType {
   id: number
-  department: string
+}
+
+type SubjectIdType = {
+  id: number
   name: string
   professor: string
   subjectType: string
-}
-
-interface FetchSubjectListType {
-  type: 'department' | 'subject' | 'professor'
-  value?: string
+  url: string
+  department: string
+  books: {
+    id: number
+  }[]
 }
 
 export const useSubjectQuery = ({ type, value }: FetchSubjectListType) => {
   return useQuery(
-    ['subject-list', type, value],
+    ['subject', 'list', type, value],
     () =>
       getAsync<[]>(`/subjects`, {
         params: {
@@ -25,6 +33,16 @@ export const useSubjectQuery = ({ type, value }: FetchSubjectListType) => {
       }),
     {
       enabled: !!value,
+    }
+  )
+}
+
+export const useSubjectIdQuery = ({ id }: FetchSubjectType) => {
+  return useQuery(
+    ['subject', 'id', id],
+    () => getAsync<SubjectIdType>(`/subjects/${id}`),
+    {
+      enabled: !!id,
     }
   )
 }
