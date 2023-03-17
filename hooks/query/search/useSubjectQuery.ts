@@ -19,6 +19,11 @@ type SubjectIdType = {
   department: string
   books: {
     id: number
+    author: string
+    title: string
+    year: number
+    publisher: string
+    type: string
   }[]
 }
 
