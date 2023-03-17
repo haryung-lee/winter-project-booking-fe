@@ -16,15 +16,15 @@
     "incremental": true,
     "baseUrl": ".",
     "paths": {
-      "@api/*": ["./api/*"],
-      "@components/*": ["./components/*"],
-      "@config/*": ["./config/*"],
-      "@pages/*": ["./pages/*"],
-      "@styles/*": ["./styles/*"],
-      "@hooks/*": ["./hooks/*"],
-      "@utils/*": ["./utils/*"],
-      "@data/*": ["./data/*"],
-      "@types/*": ["./types/*"]
+      "@/api/*": ["./api/*"],
+      "@/components/*": ["./components/*"],
+      "@/config/*": ["./config/*"],
+      "@/pages/*": ["./pages/*"],
+      "@/styles/*": ["./styles/*"],
+      "@/hooks/*": ["./hooks/*"],
+      "@/utils/*": ["./utils/*"],
+      "@/data/*": ["./data/*"],
+      "@/types/*": ["./types/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],

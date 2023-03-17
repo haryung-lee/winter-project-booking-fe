@@ -3,14 +3,7 @@ import styled from '@emotion/styled'
 import { useRouter } from 'next/router'
 
 import theme from 'styles/theme'
-
-export type SubjectListType = {
-  id: number
-  department: string
-  name: string
-  professor: string
-  subjectType: string
-}
+import { SubjectListType } from '@/types/searchType'
 
 interface SearchItemProps {
   data: SubjectListType
@@ -33,11 +26,11 @@ const SearchItem = (props: SearchItemProps) => {
 
   return (
     <Container onClick={handleClick}>
-      <Subject>{data.name}</Subject>
-      <Professor>{data.professor}</Professor>
+      <Subject>{data.subjectName}</Subject>
+      <Professor>{data.professorName}</Professor>
       <Description>
         <span>{data.subjectType}</span>
-        <Department>{data.department}</Department>
+        <Department>{data.departmentName}</Department>
       </Description>
     </Container>
   )
