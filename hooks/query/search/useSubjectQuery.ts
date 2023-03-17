@@ -1,5 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
-import { getAsync } from '@api/index'
+
+import { getAsync } from '@/api/index'
+import { SubjectIdType } from '@/types/searchType'
 
 interface FetchSubjectListType {
   type: 'department' | 'name' | 'professor'
@@ -8,23 +10,6 @@ interface FetchSubjectListType {
 
 interface FetchSubjectType {
   id: number
-}
-
-type SubjectIdType = {
-  id: number
-  name: string
-  professor: string
-  subjectType: string
-  url: string
-  department: string
-  books: {
-    id: number
-    author: string
-    title: string
-    year: number
-    publisher: string
-    type: string
-  }[]
 }
 
 export const useSubjectQuery = ({ type, value }: FetchSubjectListType) => {

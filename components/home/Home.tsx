@@ -4,11 +4,11 @@ import { SelectChangeEvent } from '@mui/material'
 import Image from 'next/image'
 
 import theme from 'styles/theme'
-import { useDebounce } from '@hooks/useDebounce'
+import { useDebounce } from '@/hooks/useDebounce'
 import DropDown from 'components/common/drop-down'
 import SearchItem from 'components/search-item'
-import { useSubjectQuery } from '@hooks/query/search/useSubjectQuery'
-import { SubjectListType } from '@components/search-item/SearchItem'
+import { useSubjectQuery } from '@/hooks/query/search/useSubjectQuery'
+import { SubjectListType } from '@/types/searchType'
 
 const Home = () => {
   const [option, setOption] = useState<'professor' | 'department' | 'name'>(
@@ -145,10 +145,8 @@ const Container = styled.div`
 
 const Main = styled.main`
   max-width: 22.5rem;
-  background-color: ${theme.primary.white};
   padding: 0 1rem;
   margin: 2rem auto;
-  /* height: 100vh; */
 `
 
 const Banner = styled.div`
